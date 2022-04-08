@@ -24,8 +24,8 @@ from config import BOT_USERNAME, SUDO_USERS
 from program import LOGS
 from program.utils.function import get_calls
 
-from driver.queues import QUEUE
-from driver.core import user, me_bot
+from driver.queues import QUEUE, clear_queue
+from driver.core import user, me_bot, calls
 from driver.filters import command, other_filters
 from driver.database.dbchat import remove_served_chat
 from driver.database.dbqueue import remove_active_chat
@@ -103,7 +103,7 @@ async def leave_all(c: Client, message: Message):
             )
         await asyncio.sleep(0.7)
     await msg.delete()
-    await client.send_message(
+    await c.send_message(
         message.chat.id, f"✅ Left from: {run_2} chats.\n❌ Failed in: {run_2} chats."
     )
 
@@ -167,6 +167,8 @@ async def bot_kicked(c: Client, m: Message):
     if left_member.id == bot_id:
         if chat_id in QUEUE:
             await remove_active_chat(chat_id)
+            await calls.leave_group_call(chat_id)
+            clear_queue(chat_id)
             return
         try:
             await user.leave_chat(chat_id)

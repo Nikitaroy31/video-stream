@@ -145,9 +145,7 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
                 title = songname
                 userid = m.from_user.id
                 image = await thumb(thumbnail, title, userid, ctitle)
-                await suhu.edit("🔄 Joining Group Call...")
-                await music_on(chat_id)
-                await add_active_chat(chat_id)
+#                
                 await calls.join_group_call(
                     chat_id,
                     AudioPiped(
@@ -156,6 +154,10 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
                     ),
                     stream_type=StreamType().pulse_stream,
                 )
+                await suhu.edit("🔄 Joining Group Call...")
+                await music_on(chat_id)
+                await add_active_chat(chat_id)
+#
                 add_to_queue(chat_id, songname, dl, link, "music", 0)
                 await suhu.delete()
                 buttons = stream_markup(user_id)
@@ -241,9 +243,11 @@ async def audio_stream(c: Client, m: Message):
                     "» reply to an **audio file** or **give something to search.**"
                 )
             else:
-                suhu = await c.send_message(chat_id, "🔍 **Loading...**")
+                #
                 query = m.text.split(None, 1)[1]
                 search = ytsearch(query)
+                suhu = await c.send_message(chat_id, "🔍 **Loading...**")
+                #
                 if search == 0:
                     await suhu.edit("❌ **no results found**")
                 else:
@@ -276,9 +280,7 @@ async def audio_stream(c: Client, m: Message):
                             remove_if_exists(image)
                         else:
                             try:
-                                await suhu.edit("🔄 Joining Group Call...")
-                                await music_on(chat_id)
-                                await add_active_chat(chat_id)
+#
                                 await calls.join_group_call(
                                     chat_id,
                                     AudioPiped(
@@ -287,6 +289,10 @@ async def audio_stream(c: Client, m: Message):
                                     ),
                                     stream_type=StreamType().local_stream,
                                 )
+                                await suhu.edit("🔄 Joining Group Call...")
+                                await music_on(chat_id)
+                                await add_active_chat(chat_id)
+#
                                 add_to_queue(chat_id, songname, ytlink, url, "music", 0)
                                 await suhu.delete()
                                 buttons = stream_markup(user_id)
@@ -351,9 +357,7 @@ async def audio_stream(c: Client, m: Message):
                         remove_if_exists(image)
                     else:
                         try:
-                            await suhu.edit("🔄 Joining Group Call...")
-                            await music_on(chat_id)
-                            await add_active_chat(chat_id)
+#
                             await calls.join_group_call(
                                 chat_id,
                                 AudioPiped(
@@ -362,6 +366,10 @@ async def audio_stream(c: Client, m: Message):
                                 ),
                                 stream_type=StreamType().local_stream,
                             )
+                            await suhu.edit("🔄 Joining Group Call...")
+                            await music_on(chat_id)
+                            await add_active_chat(chat_id)
+#
                             add_to_queue(chat_id, songname, ytlink, url, "music", 0)
                             await suhu.delete()
                             requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
@@ -460,9 +468,8 @@ async def live_music_stream(c: Client, m: Message):
                     )
                 else:
                     try:
-                        await msg.edit_text("🔄 Joining Group Call...")
-                        await music_on(chat_id)
-                        await add_active_chat(chat_id)
+
+#
                         await calls.join_group_call(
                             chat_id,
                             AudioPiped(
@@ -470,7 +477,11 @@ async def live_music_stream(c: Client, m: Message):
                                 HighQualityAudio(),
                             ),
                             stream_type=StreamType().live_stream,
-                        )
+                        )                        
+                        await msg.edit_text("🔄 Joining Group Call...")
+                        await music_on(chat_id)
+                        await add_active_chat(chat_id)
+#
                         add_to_queue(chat_id, "m3u8 audio", data, url, "music", 0)
                         await msg.delete()
                         requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
@@ -511,9 +522,7 @@ async def live_music_stream(c: Client, m: Message):
                     remove_if_exists(image)
                 else:
                     try:
-                        await msg.edit_text("🔄 Joining Group Call...")
-                        await music_on(chat_id)
-                        await add_active_chat(chat_id)
+#
                         await calls.join_group_call(
                             chat_id,
                             AudioPiped(
@@ -522,6 +531,10 @@ async def live_music_stream(c: Client, m: Message):
                             ),
                             stream_type=StreamType().live_stream,
                         )
+                        await msg.edit_text("🔄 Joining Group Call...")
+                        await music_on(chat_id)
+                        await add_active_chat(chat_id)
+#
                         add_to_queue(chat_id, songname, data, url, "music", 0)
                         await msg.delete()
                         requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"

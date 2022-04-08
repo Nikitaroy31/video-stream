@@ -129,6 +129,9 @@ async def stream_end_handler(_, u: Update):
             await remove_active_chat(chat_id)
             return
         elif queue == 2:
+            await calls.leave_group_call(chat_id)
+            await remove_active_chat(chat_id)
+            clear_queue(chat_id)
             await bot.send_message(
                 chat_id,
                 "❌ an error occurred\n\n» **Clearing** Queues and leaving video chat.",

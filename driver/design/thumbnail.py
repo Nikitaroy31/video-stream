@@ -7,6 +7,8 @@ from PIL import (
     ImageFont,
 )
 
+from config import UPDATES_CHANNEL
+
 
 def changeImageSize(maxWidth, maxHeight, image):
     if image.size[0] == image.size[1]:
@@ -45,18 +47,33 @@ async def thumb(thumbnail, title, userid, ctitle):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("driver/source/regular.ttf", 49)
     font2 = ImageFont.truetype("driver/source/medium.ttf", 70)
+    font3 = ImageFont.truetype("driver/source/font2.ttf", 70)
     draw.text(
-        (30, 615),
-        f"{title[:20]}...",
-        fill="black",
-        font=font2,
-    )
+            (600, 150),
+            "NOW PLAYING",
+            fill="black",
+            stroke_width=2,
+            stroke_fill="white",
+            font=font3,
+        )
+    
     draw.text(
-        (30, 543),
-        f"Playing on {ctitle[:12]}",
-        fill="black",
-        font=font,
-    )
+            (600, 340),
+            f"{title[:12]}...",
+            fill="black",
+            stroke_width=1,
+            stroke_fill="white",
+            font=font,
+                )
+    draw.text(
+            (600, 450),
+            f"Powered by @{UPDATES_CHANNEL[:12]}",
+            fill="black",
+            stroke_width=1,
+            stroke_fill="white",
+            font=font,
+                )    
+
     img.save(f"search/final{userid}.png")
     os.remove(f"search/temp{userid}.png")
     os.remove(img_path)

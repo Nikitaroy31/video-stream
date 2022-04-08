@@ -85,7 +85,7 @@ async def get_bot_logs(c: Client, m: Message):
             await m.reply_document(
                 bot_log_path,
                 quote=True,
-                caption='📁 this is the bot logs',
+                caption= f'📁 this is the logs of @{BOT_USERNAME} bot',
             )
         except Exception as e:
             remove_if_exists(bot_log_path)

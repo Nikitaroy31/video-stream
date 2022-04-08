@@ -27,7 +27,8 @@ from io import StringIO
 from inspect import getfullargspec
 
 from config import BOT_USERNAME as bname
-from driver.core import bot
+from driver.core import bot, user
+from driver.database.dbqueue import remove_active_chat
 from driver.queues import QUEUE
 from driver.filters import command
 from driver.database.dbchat import remove_served_chat

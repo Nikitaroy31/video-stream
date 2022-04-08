@@ -140,7 +140,11 @@ async def skip(c: Client, m: Message):
         await m.reply_text("» There's no more music in queue to skip, userbot leaving video chat.")
     elif queue == 2:
         await m.reply_text("🗑️ Clearing the **queues**\n\n» **userbot** leaving video chat.")
-    else:
+        await calls.leave_group_call(chat_id)
+        await remove_active_chat(chat_id)
+        clear_queue(chat_id)
+    else:        
+
         buttons = stream_markup(user_id)
         requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
         thumbnail = f"{IMG_5}"
@@ -355,6 +359,9 @@ async def cbskip(_, query: CallbackQuery):
         await query.answer("» There's no more music in queue to skip, userbot leaving video chat.", show_alert=True)
     elif queue == 2:
         await query.answer("🗑️ Clearing the **queues**\n\n» **userbot** leaving video chat.", show_alert=True)
+        await calls.leave_group_call(chat_id)
+        await remove_active_chat(chat_id)
+        clear_queue(chat_id)
     else:
         await query.answer("goes to the next track, proccessing...")
         await query.message.delete()
