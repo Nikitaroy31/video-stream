@@ -121,10 +121,10 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
         if chat_id in QUEUE:
             await suhu.edit("🔄 Queueing Track...")
             gcname = m.chat.title
-            #ctitle = await CHAT_TITLE(gcname)
+            ctitle = await CHAT_TITLE(gcname)
             title = songname
             userid = m.from_user.id
-            image = await thumb(thumbnail, title, userid)
+            image = await thumb(thumbnail, title, userid, ctitle)
             pos = add_to_queue(chat_id, songname, dl, link, "music", 0)
             requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
             buttons = stream_markup(user_id)
@@ -141,10 +141,10 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
         else:
             try:
                 gcname = m.chat.title
-                #ctitle = await CHAT_TITLE(gcname)
+                ctitle = await CHAT_TITLE(gcname)
                 title = songname
                 userid = m.from_user.id
-                #image = await thumb(thumbnail, title, userid)
+                #image = await thumb(thumbnail, title, userid, ctitle)
 #                
                 await calls.join_group_call(
                     chat_id,
@@ -155,7 +155,7 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
                     stream_type=StreamType().pulse_stream,
                 )
                 await suhu.edit("🔄 Joining Group Call...")
-                image = await thumb(thumbnail, title, userid)
+                image = await thumb(thumbnail, title, userid, ctitle)
                 await music_on(chat_id)
                 await add_active_chat(chat_id)
 #
@@ -259,15 +259,15 @@ async def audio_stream(c: Client, m: Message):
                     thumbnail = search[3]
                     userid = m.from_user.id
                     gcname = m.chat.title
-                    #ctitle = await CHAT_TITLE(gcname)
-                    #image = await thumb(thumbnail, title, userid)
+                    ctitle = await CHAT_TITLE(gcname)
+                    #image = await thumb(thumbnail, title, userid, ctitle)
                     out, ytlink = await ytdl(url)
                     if out == 0:
                         await suhu.edit(f"❌ yt-dl issues detected\n\n» `{ytlink}`")
                     else:
                         if chat_id in QUEUE:
                             await suhu.edit("🔄 Queueing Track...")
-                            image = await thumb(thumbnail, title, userid)
+                            image = await thumb(thumbnail, title, userid, ctitle)
                             pos = add_to_queue(
                                 chat_id, songname, ytlink, url, "music", 0
                             )
@@ -292,7 +292,7 @@ async def audio_stream(c: Client, m: Message):
                                     stream_type=StreamType().local_stream,
                                 )
                                 await suhu.edit("🔄 Joining Group Call...")
-                                image = await thumb(thumbnail, title, userid)
+                                image = await thumb(thumbnail, title, userid, ctitle)
                                 await music_on(chat_id)
                                 await add_active_chat(chat_id)
 #
@@ -342,15 +342,15 @@ async def audio_stream(c: Client, m: Message):
                 thumbnail = search[3]
                 userid = m.from_user.id
                 gcname = m.chat.title
-                #ctitle = await CHAT_TITLE(gcname)
-                #image = await thumb(thumbnail, title, userid)
+                ctitle = await CHAT_TITLE(gcname)
+                #image = await thumb(thumbnail, title, userid, ctitle)
                 veez, ytlink = await ytdl(url)
                 if veez == 0:
                     await suhu.edit(f"❌ yt-dl issues detected\n\n» `{ytlink}`")
                 else:
                     if chat_id in QUEUE:
                         await suhu.edit("🔄 Queueing Track...")
-                        image = await thumb(thumbnail, title, userid)
+                        image = await thumb(thumbnail, title, userid, ctitle)
                         pos = add_to_queue(chat_id, songname, ytlink, url, "music", 0)
                         await suhu.delete()
                         requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
@@ -373,7 +373,7 @@ async def audio_stream(c: Client, m: Message):
                                 stream_type=StreamType().local_stream,
                             )
                             await suhu.edit("🔄 Joining Group Call...")
-                            image = await thumb(thumbnail, title, userid)
+                            image = await thumb(thumbnail, title, userid, ctitle)
                             await music_on(chat_id)
                             await add_active_chat(chat_id)
 #
@@ -513,11 +513,11 @@ async def live_music_stream(c: Client, m: Message):
                 thumbnail = search[3]
                 userid = m.from_user.id
                 gcname = m.chat.title
-                #ctitle = await CHAT_TITLE(gcname)
-                #image = await thumb(thumbnail, title, userid)
+                ctitle = await CHAT_TITLE(gcname)
+                #image = await thumb(thumbnail, title, userid, ctitle)
                 if chat_id in QUEUE:
                     await msg.edit_text("🔄 Queueing Track...")
-                    image = await thumb(thumbnail, title, userid)
+                    image = await thumb(thumbnail, title, userid, ctitle)
                     pos = add_to_queue(chat_id, songname, data, url, "music", 0)
                     await msg.delete()
                     requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
@@ -540,7 +540,7 @@ async def live_music_stream(c: Client, m: Message):
                             stream_type=StreamType().live_stream,
                         )
                         await msg.edit_text("🔄 Joining Group Call...")
-                        image = await thumb(thumbnail, title, userid)
+                        image = await thumb(thumbnail, title, userid, ctitle)
                         await music_on(chat_id)
                         await add_active_chat(chat_id)
 #
