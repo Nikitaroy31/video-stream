@@ -25,7 +25,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     return newImage
 
 
-async def thumb(thumbnail, title, userid, ctitle):
+async def thumb(thumbnail, title, userid, ctitle, duration):
     img_path = f"search/thumb{userid}.png"
     if 'http' in thumbnail:
         async with aiohttp.ClientSession() as session:
@@ -49,28 +49,28 @@ async def thumb(thumbnail, title, userid, ctitle):
     font2 = ImageFont.truetype("driver/source/medium.ttf", 70)
     font3 = ImageFont.truetype("driver/source/font2.ttf", 50)
     draw.text(
-            (500, 150),
-            f"{title[:20]}...",
-            fill="black",
+            (215, 150),
+            f"Title: {title[:20]}",
+            fill="white",
             stroke_width=2,
-            stroke_fill="white",
+            stroke_fill="black",
             font=font3,
         )
     
     draw.text(
-            (500, 240),
-            f"{ctitle[:20]}...",
-            fill="black",
+            (215, 240),
+            f"Duration: {duration[:20]}",
+            fill="red",
             stroke_width=1,
-            stroke_fill="green",
+            stroke_fill="black",
             font=font,
                 )
     draw.text(
-            (500, 350),
-            f"Powered by @{UPDATES_CHANNEL}",
-            fill="black",
+            (215, 340),
+            f"Powered by: @{UPDATES_CHANNEL}",
+            fill="red",
             stroke_width=1,
-            stroke_fill="green",
+            stroke_fill="black",
             font=font,
                 )    
 

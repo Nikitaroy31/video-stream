@@ -121,11 +121,12 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
 
         if chat_id in QUEUE:
             await suhu.edit("🔄 Queueing Track...")
-            gcname = m.chat.title
-            ctitle = await CHAT_TITLE(gcname)
+            #gcname = m.chat.title
+            #ctitle = await CHAT_TITLE(gcname)
+            ctitle = 'lol'
             title = songname
             userid = m.from_user.id
-            image = await thumb(thumbnail, title, userid, ctitle)
+            image = await thumb(thumbnail, title, userid, ctitle, duration)
             pos = add_to_queue(chat_id, songname, dl, link, "music", 0)
             requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
             buttons = stream_markup(user_id)
@@ -141,8 +142,9 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
             remove_if_exists(image)
         else:
             try:
-                gcname = m.chat.title
-                ctitle = await CHAT_TITLE(gcname)
+                #gcname = m.chat.title
+                #ctitle = await CHAT_TITLE(gcname)
+                ctitle = 'lol'
                 title = songname
                 userid = m.from_user.id
                 #image = await thumb(thumbnail, title, userid, ctitle)
@@ -156,7 +158,7 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
                     stream_type=StreamType().pulse_stream,
                 )
                 await suhu.edit("🔄 Joining Group Call...")
-                image = await thumb(thumbnail, title, userid, ctitle)
+                image = await thumb(thumbnail, title, userid, ctitle, duration)
                 await music_on(chat_id)
                 await add_active_chat(chat_id)
 #
@@ -255,31 +257,28 @@ async def audio_stream(c: Client, m: Message):
                 
                     await suhu.edit("❌ **no results found**")
                 else:
-                    '''
-                    songname = search[0]
-                    title = search[0]
-                    url = search[1]
-                    duration = search[2]
-                    thumbnail = search[3]
-                    '''   
+  
                     url = f"https://youtube.com{search[0]['url_suffix']}"
-                    mid = search[0]["url_suffix"]
+                    m_id = search[0]["url_suffix"]
                     title = search[0]["title"][:40]
+                    songname = title
                     thumbnail = search[0]["thumbnails"][0]
                     duration = search[0]["duration"]
-                    views = search[0]["views"]
+                    
 
                     userid = m.from_user.id
-                    gcname = m.chat.title
-                    ctitle = await CHAT_TITLE(gcname)
+                    #gcname = m.chat.title
+                    #ctitle = await CHAT_TITLE(gcname)
                     #image = await thumb(thumbnail, title, userid, ctitle)
+                    ctitle = 'lol'
                     out, ytlink = await ytdl(url)
                     if out == 0:
                         await suhu.edit(f"❌ yt-dl issues detected\n\n» `{ytlink}`")
                     else:
                         if chat_id in QUEUE:
+                            
+                            image = await thumb(thumbnail, title, userid, ctitle, duration)
                             await suhu.edit("🔄 Queueing Track...")
-                            image = await thumb(thumbnail, title, userid, ctitle)
                             pos = add_to_queue(
                                 chat_id, songname, ytlink, url, "music", 0
                             )
@@ -303,12 +302,17 @@ async def audio_stream(c: Client, m: Message):
                                     ),
                                     stream_type=StreamType().local_stream,
                                 )
-                                await suhu.edit("🔄 Joining Group Call...")
-                                image = await thumb(thumbnail, title, userid, ctitle)
+
                                 await music_on(chat_id)
                                 await add_active_chat(chat_id)
-#
                                 add_to_queue(chat_id, songname, ytlink, url, "music", 0)
+                                image = await thumb(thumbnail, title, userid, ctitle, duration)
+                                await suhu.edit("🔄 Joining Group Call...")
+                                
+                                
+                                
+#
+                                
                                 await suhu.delete()
                                 buttons = stream_markup(user_id)
                                 requester = (
@@ -341,28 +345,34 @@ async def audio_stream(c: Client, m: Message):
         else:
             #
             query = m.text.split(None, 1)[1]
-            search = ytsearch(query)
+            #search = ytsearch(query)
+            search = YoutubeSearch(query, max_results=1).to_dict()
             #
             suhu = await c.send_message(chat_id, "🔍 **Loading...**")
             if search == 0:
                 await suhu.edit("❌ **no results found**")
             else:
-                songname = search[0]
-                title = search[0]
-                url = search[1]
-                duration = search[2]
-                thumbnail = search[3]
+            
+                url = f"https://youtube.com{search[0]['url_suffix']}"
+                m_id = search[0]["url_suffix"]
+                title = search[0]["title"][:40]
+                songname = title
+                thumbnail = search[0]["thumbnails"][0]
+                duration = search[0]["duration"]
+                    
+
                 userid = m.from_user.id
-                gcname = m.chat.title
-                ctitle = await CHAT_TITLE(gcname)
-                #image = await thumb(thumbnail, title, userid, ctitle)
+                    #gcname = m.chat.title
+                    #ctitle = await CHAT_TITLE(gcname)
+                    #image = await thumb(thumbnail, title, userid, ctitle)
+                ctitle = 'lol'
                 veez, ytlink = await ytdl(url)
                 if veez == 0:
                     await suhu.edit(f"❌ yt-dl issues detected\n\n» `{ytlink}`")
                 else:
                     if chat_id in QUEUE:
                         await suhu.edit("🔄 Queueing Track...")
-                        image = await thumb(thumbnail, title, userid, ctitle)
+                        image = await thumb(thumbnail, title, userid, ctitle, duration)
                         pos = add_to_queue(chat_id, songname, ytlink, url, "music", 0)
                         await suhu.delete()
                         requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
@@ -385,7 +395,7 @@ async def audio_stream(c: Client, m: Message):
                                 stream_type=StreamType().local_stream,
                             )
                             await suhu.edit("🔄 Joining Group Call...")
-                            image = await thumb(thumbnail, title, userid, ctitle)
+                            image = await thumb(thumbnail, title, userid, ctitle, duration)
                             await music_on(chat_id)
                             await add_active_chat(chat_id)
 #
@@ -519,17 +529,22 @@ async def live_music_stream(c: Client, m: Message):
                         await remove_active_chat(chat_id)
                         await m.reply_text("❌ The content you provide to play has no audio source")
             else:
-                search = ytsearch(url)
-                title = search[0]
-                songname = search[0]
-                thumbnail = search[3]
+                #search = ytsearch(url)
+                search = YoutubeSearch(url, max_results=1).to_dict()
+                url = f"https://youtube.com{search[0]['url_suffix']}"
+                m_id = search[0]["url_suffix"]
+                title = search[0]["title"][:40]
+                songname = title
+                thumbnail = search[0]["thumbnails"][0]
+                duration = search[0]["duration"]
                 userid = m.from_user.id
-                gcname = m.chat.title
-                ctitle = await CHAT_TITLE(gcname)
+                #gcname = m.chat.title
+                # = await CHAT_TITLE(gcname)
+                ctitle = 'lol'
                 #image = await thumb(thumbnail, title, userid, ctitle)
                 if chat_id in QUEUE:
                     await msg.edit_text("🔄 Queueing Track...")
-                    image = await thumb(thumbnail, title, userid, ctitle)
+                    image = await thumb(thumbnail, title, userid, ctitle, duration)
                     pos = add_to_queue(chat_id, songname, data, url, "music", 0)
                     await msg.delete()
                     requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
