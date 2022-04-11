@@ -50,7 +50,7 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
     font3 = ImageFont.truetype("driver/source/font2.ttf", 50)
 
     draw.text(
-            (103, 320),
+            (103, 520),
             f"Title: {title[:20]}",
             fill="white",
             stroke_width=2,
@@ -59,7 +59,7 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
         )
     
     draw.text(
-            (103, 420),
+            (103, 580),
             f"Duration: {duration}",
             fill="red",
             stroke_width=1,
@@ -67,7 +67,7 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
             font=font2,
                 )
     draw.text(
-            (103, 520),
+            (103, 630),
             f"Powered by: @{UPDATES_CHANNEL}",
             fill="red",
             stroke_width=1,
