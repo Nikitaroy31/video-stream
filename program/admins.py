@@ -373,9 +373,10 @@ async def cbskip(_, query: CallbackQuery):
         thumbnail = f"{IMG_5}"
         title = f"{queue[0]}"
         userid = query.from_user.id
+        duration = '0:00'
         gcname = query.message.chat.title
         ctitle = await CHAT_TITLE(gcname)
-        image = await thumb(thumbnail, title, userid, ctitle)
+        image = await thumb(thumbnail, title, userid, ctitle, duration)
         await _.send_photo(
             chat_id,
             photo=image,
