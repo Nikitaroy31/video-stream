@@ -46,32 +46,33 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
     img = Image.open(f"search/temp{userid}.png")
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("driver/source/regular.ttf", 49)
-    font2 = ImageFont.truetype("driver/source/medium.ttf", 70)
+    font2 = ImageFont.truetype("driver/source/font.otf", 70)
     font3 = ImageFont.truetype("driver/source/font2.ttf", 50)
+
     draw.text(
-            (215, 150),
+            (51, 215, 255),
             f"Title: {title[:20]}",
             fill="white",
             stroke_width=2,
-            stroke_fill="black",
+            stroke_fill="yellow",
             font=font3,
         )
     
     draw.text(
-            (215, 240),
-            f"Duration: {duration[:20]}",
+            (255, 255, 255),
+            f"Duration: {duration}",
             fill="red",
             stroke_width=1,
-            stroke_fill="black",
-            font=font,
+            stroke_fill="yellow",
+            font=font2,
                 )
     draw.text(
-            (215, 340),
+            (255, 255, 255),
             f"Powered by: @{UPDATES_CHANNEL}",
             fill="red",
             stroke_width=1,
-            stroke_fill="black",
-            font=font,
+            stroke_fill="yellow",
+            font=font2,
                 )    
 
     img.save(f"search/final{userid}.png")
