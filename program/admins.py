@@ -17,6 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/licenses.html
 """
 
 
+from http import client
 import traceback
 
 from cache.admins import admins
@@ -130,13 +131,14 @@ async def resume(client, m: Message):
 @Client.on_message(command(["skip", f"skip@{BOT_USERNAME}", "vskip"]) & other_filters)
 @authorized_users_only
 @check_blacklist()
-async def skip(c: Client, m: Message):
+async def skip(c, m: Message):
     user_id = m.from_user.id
     chat_id = m.chat.id
     queue = await skip_current_song(chat_id)
     if queue == 0:
         await m.reply_text("❌ nothing is currently playing")
     elif queue == 1:
+        await calls.leave_group_call(chat_id)
         await m.reply_text("» There's no more music in queue to skip, userbot leaving video chat.")
     elif queue == 2:
         await m.reply_text("🗑️ Clearing the **queues**\n\n» **userbot** leaving video chat.")
@@ -150,10 +152,11 @@ async def skip(c: Client, m: Message):
         thumbnail = f"{IMG_5}"
         title = f"{queue[0]}"
         userid = m.from_user.id
+        duration = '0:00'
         gcname = m.chat.title
         ctitle = await CHAT_TITLE(gcname)
-        image = await thumb(thumbnail, title, userid, ctitle)
-        await c.send_photo(
+        image = await thumb(thumbnail, title, userid, ctitle, duration)
+        await client.send_photo(
             chat_id,
             photo=image,
             reply_markup=InlineKeyboardMarkup(buttons),
