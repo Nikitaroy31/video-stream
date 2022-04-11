@@ -45,21 +45,21 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
     Image.alpha_composite(image5, image6).save(f"search/temp{userid}.png")
     img = Image.open(f"search/temp{userid}.png")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("driver/source/regular.ttf", 49)
+    font = ImageFont.truetype("driver/source/font.otf", 48)
     font2 = ImageFont.truetype("driver/source/font.otf", 35)
     font3 = ImageFont.truetype("driver/source/font2.ttf", 50)
 
     draw.text(
             (103, 520),
-            f"Title: {title[:20]}",
+            f"Title: {title[:25]}",
             fill="white",
-            stroke_width=2,
+            stroke_width=1,
             stroke_fill="yellow",
-            font=font3,
+            font=font,
         )
     
     draw.text(
-            (103, 580),
+            (103, 600),
             f"Duration: {duration}",
             fill="red",
             stroke_width=1,
@@ -73,7 +73,15 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
             stroke_width=1,
             stroke_fill="yellow",
             font=font2,
-                )    
+                ) 
+    draw.text(
+            (103, 660),
+            f"Maintained by: @nikitaroy_31",
+            fill="red",
+            stroke_width=1,
+            stroke_fill="yellow",
+            font=font2,
+                )   
 
     img.save(f"search/final{userid}.png")
     os.remove(f"search/temp{userid}.png")
