@@ -141,7 +141,7 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
             title = songname
             userid = m.from_user.id
             thumbnail = f"{IMG_5}"
-            image = await thumb(thumbnail, title, userid, ctitle)
+            image = await thumb(thumbnail, title, userid, ctitle, duration)
             pos = add_to_queue(chat_id, songname, dl, link, "video", Q)
             await loser.delete()
             requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
@@ -163,7 +163,7 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
                 title = songname
                 userid = m.from_user.id
                 thumbnail = f"{IMG_5}"
-                image = await thumb(thumbnail, title, userid, ctitle)
+                image = await thumb(thumbnail, title, userid, ctitle, duration)
                 if Q == 720:
                     amaze = HighQualityVideo()
                 elif Q == 480:
@@ -282,7 +282,7 @@ async def video_stream(c: Client, m: Message):
                     userid = m.from_user.id
                     gcname = m.chat.title
                     ctitle = await CHAT_TITLE(gcname)
-                    image = await thumb(thumbnail, title, userid, ctitle)
+                    image = await thumb(thumbnail, title, userid, ctitle, duration)
                     data, ytlink = await ytdl(url)
                     if data == 0:
                         await loser.edit(f"❌ yt-dl issues detected\n\n» `{ytlink}`")
@@ -364,7 +364,7 @@ async def video_stream(c: Client, m: Message):
                 userid = m.from_user.id
                 gcname = m.chat.title
                 ctitle = await CHAT_TITLE(gcname)
-                image = await thumb(thumbnail, title, userid, ctitle)
+                image = await thumb(thumbnail, title, userid, ctitle, duration)
                 data, ytlink = await ytdl(url)
                 if data == 0:
                     await loser.edit(f"❌ yt-dl issues detected\n\n» `{ytlink}`")
@@ -568,7 +568,7 @@ async def live_video_stream(c: Client, m: Message):
                 userid = m.from_user.id
                 gcname = m.chat.title
                 ctitle = await CHAT_TITLE(gcname)
-                image = await thumb(thumbnail, title, userid, ctitle)
+                image = await thumb(thumbnail, title, userid, ctitle, duration)
                 if chat_id in QUEUE:
                     await loser.edit("🔄 Queueing Track...")
                     pos = add_to_queue(chat_id, songname, livelink, url, "video", Q)
