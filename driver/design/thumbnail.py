@@ -59,7 +59,7 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
         )
     
     draw.text(
-            (103, 600),
+            (103, 580),
             f"Duration: {duration}",
             fill="red",
             stroke_width=1,
@@ -67,7 +67,7 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
             font=font2,
                 )
     draw.text(
-            (103, 630),
+            (103, 615),
             f"Powered by: @{UPDATES_CHANNEL}",
             fill="red",
             stroke_width=1,
