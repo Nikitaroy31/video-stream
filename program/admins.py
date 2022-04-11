@@ -156,7 +156,7 @@ async def skip(c, m: Message):
         gcname = m.chat.title
         ctitle = await CHAT_TITLE(gcname)
         image = await thumb(thumbnail, title, userid, ctitle, duration)
-        await client.send_photo(
+        await Client.send_photo(
             chat_id,
             photo=image,
             reply_markup=InlineKeyboardMarkup(buttons),
