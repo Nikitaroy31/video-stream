@@ -40,7 +40,7 @@ async def skip_current_song(chat_id):
         if len(chat_queue) == 1:
             await calls.leave_group_call(chat_id)
             await remove_active_chat(chat_id)
-            await clear_queue(chat_id)
+            clear_queue(chat_id)
             return 1
         else:
             try:
@@ -78,7 +78,7 @@ async def skip_current_song(chat_id):
                 print(error)
                 await calls.leave_group_call(chat_id)
                 await remove_active_chat(chat_id)
-                await clear_queue(chat_id)
+                clear_queue(chat_id)
                 return 2
     else:
         return 0
@@ -102,25 +102,22 @@ async def skip_item(chat_id, h):
 @calls.on_kicked()
 async def kicked_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
-        await clear_queue(chat_id)
+        clear_queue(chat_id)
 
 
 @calls.on_closed_voice_chat()
 async def closed_voice_chat_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
-        await clear_queue(chat_id)
+        clear_queue(chat_id)
 
 
 @calls.on_left()
 async def left_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
-        await clear_queue(chat_id)
+        clear_queue(chat_id)
 
 
 @calls.on_stream_end()
@@ -130,13 +127,8 @@ async def stream_end_handler(_, u: Update):
         queue = await skip_current_song(chat_id)
         if queue == 1:
             await remove_active_chat(chat_id)
-            await calls.leave_group_call(chat_id)
-            clear_queue(chat_id)
             return
         elif queue == 2:
-            await calls.leave_group_call(chat_id)
-            await remove_active_chat(chat_id)
-            await clear_queue(chat_id)
             await bot.send_message(
                 chat_id,
                 "❌ an error occurred\n\n» **Clearing** Queues and leaving video chat.",

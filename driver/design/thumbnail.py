@@ -47,10 +47,10 @@ async def thumb(thumbnail, title, userid, ctitle):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("driver/source/regular.ttf", 49)
     font2 = ImageFont.truetype("driver/source/medium.ttf", 70)
-    font3 = ImageFont.truetype("driver/source/font2.ttf", 70)
+    font3 = ImageFont.truetype("driver/source/font2.ttf", 50)
     draw.text(
-            (600, 150),
-            "NOW PLAYING",
+            (500, 150),
+            f"{title[:20]}...",
             fill="black",
             stroke_width=2,
             stroke_fill="white",
@@ -58,19 +58,19 @@ async def thumb(thumbnail, title, userid, ctitle):
         )
     
     draw.text(
-            (600, 340),
-            f"{title[:12]}...",
+            (500, 240),
+            f"{ctitle[:20]}...",
             fill="black",
             stroke_width=1,
-            stroke_fill="white",
+            stroke_fill="green",
             font=font,
                 )
     draw.text(
-            (600, 450),
-            f"Powered by @{UPDATES_CHANNEL[:12]}",
+            (500, 350),
+            f"Powered by @{UPDATES_CHANNEL}",
             fill="black",
             stroke_width=1,
-            stroke_fill="white",
+            stroke_fill="green",
             font=font,
                 )    
 

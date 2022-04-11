@@ -43,6 +43,7 @@ from driver.decorators import require_admin, check_blacklist
 from config import BOT_USERNAME, IMG_1, IMG_2, IMG_5
 from asyncio.exceptions import TimeoutError
 from youtubesearchpython import VideosSearch
+from youtube_search import YoutubeSearch
 
 
 def ytsearch(query: str):
@@ -246,17 +247,28 @@ async def audio_stream(c: Client, m: Message):
             else:
                 #
                 query = m.text.split(None, 1)[1]
-                search = ytsearch(query)
+                search = YoutubeSearch(query, max_results=1).to_dict()
+                #search = ytsearch(query)
                 suhu = await c.send_message(chat_id, "🔍 **Loading...**")
                 #
                 if search == 0:
+                
                     await suhu.edit("❌ **no results found**")
                 else:
+                    '''
                     songname = search[0]
                     title = search[0]
                     url = search[1]
                     duration = search[2]
                     thumbnail = search[3]
+                    '''   
+                    url = f"https://youtube.com{search[0]['url_suffix']}"
+                    mid = search[0]["url_suffix"]
+                    title = search[0]["title"][:40]
+                    thumbnail = search[0]["thumbnails"][0]
+                    duration = search[0]["duration"]
+                    views = search[0]["views"]
+
                     userid = m.from_user.id
                     gcname = m.chat.title
                     ctitle = await CHAT_TITLE(gcname)
