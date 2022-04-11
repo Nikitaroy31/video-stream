@@ -1,3 +1,4 @@
+from pyrogram import Client, filters
 import os
 import asyncio
 
@@ -122,6 +123,12 @@ async def left_handler(_, chat_id: int):
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
         
+@Client.on_message(filters.voice_chat_ended)
+async def closed_voice_chathandler(_, chat_id: int):
+    if chat_id in QUEUE:
+        await calls.leave_group_call(chat_id)
+        await remove_active_chat(chat_id)
+        clear_queue(chat_id)
 
 @calls.on_stream_end()
 async def stream_end_handler(_, u: Update):
