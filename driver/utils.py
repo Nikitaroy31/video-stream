@@ -103,7 +103,7 @@ async def skip_item(chat_id, h):
 @calls.on_kicked()
 async def kicked_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
+        #await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
        
@@ -111,7 +111,7 @@ async def kicked_handler(_, chat_id: int):
 @calls.on_closed_voice_chat()
 async def closed_voice_chat_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
+        #await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
         
@@ -131,7 +131,7 @@ async def left_handler(_, chat_id: int):
 async def closed_voice_chathandler(_, chat_id: int):
     #m = await user.send_message(chat_id,'voice chat ended')
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
+        #await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
         #await m.edit('cleared queue')
@@ -140,7 +140,7 @@ async def closed_voice_chathandler(_, chat_id: int):
 async def closed_voice_chathandler(_, chat_id: int):
     #m = await user.send_message(chat_id,'voice chat ended')
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
+        #await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
         #await m.edit('cleared queue')
