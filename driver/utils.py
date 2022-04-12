@@ -127,9 +127,9 @@ async def left_handler(_, chat_id: int):
 # 
 #
 #        
-@Client.on_message(filters.voice_chat_ended)
+@user.on_message(filters.voice_chat_ended)
 async def closed_voice_chathandler(_, chat_id: int):
-    m = await Client.send_message('voice chat ended')
+    m = await user.send_message('voice chat ended')
     if chat_id in QUEUE:
         await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
