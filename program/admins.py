@@ -134,6 +134,7 @@ async def resume(client, m: Message):
 async def skip(c, m: Message):
     user_id = m.from_user.id
     chat_id = m.chat.id
+    #await m.reply_text("✅ Skipped")
     queue = await skip_current_song(chat_id)
     if queue == 0:
         await m.reply_text("❌ nothing is currently playing")
@@ -156,8 +157,8 @@ async def skip(c, m: Message):
         gcname = m.chat.title
         ctitle = await CHAT_TITLE(gcname)
         image = await thumb(thumbnail, title, userid, ctitle, duration)
-        await Client.send_photo(
-            chat_id,
+        await m.reply_photo(
+            
             photo=image,
             reply_markup=InlineKeyboardMarkup(buttons),
             caption=f"⏭ **Skipped** to the next track.\n\n🗂 **Name:** [{queue[0]}]({queue[1]})\n💭 **Chat:** `{chat_id}`\n🧸 **Request by:** {requester}",
