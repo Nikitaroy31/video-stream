@@ -157,14 +157,11 @@ async def skip(c: Client, m: Message):
         userid = m.from_user.id
         gcname = m.chat.title
         ctitle = await CHAT_TITLE(gcname)
-<<<<<<< HEAD
         image = await thumb(thumbnail, title, userid, ctitle)
         await c.send_photo(
             chat_id,
-=======
         image = await thumb(thumbnail, title, userid, ctitle, duration)
         await m.reply_photo(
->>>>>>> 5e813b4e7ec6caff0468036ea523eec58af1acae
             photo=image,
             reply_markup=InlineKeyboardMarkup(buttons),
             caption=f"⏭ **Skipped** to the next track.\n\n🗂 **Name:** [{queue[0]}]({queue[1]})\n💭 **Chat:** `{chat_id}`\n🧸 **Request by:** {requester}",
