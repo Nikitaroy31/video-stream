@@ -18,4 +18,4 @@ pillow
 motor
 psutil
 wget
-random
+random2
