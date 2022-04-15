@@ -53,6 +53,7 @@ async def edit_or_reply(msg: Message, **kwargs):
 
 
 @Client.on_message(command(["eval", f"eval{bname}"]) & ~filters.edited)
+@bot_creator
 @sudo_users_only
 async def executor(client, message):
     if len(message.command) < 2:
@@ -129,6 +130,7 @@ async def runtime_func_cq(_, cq):
 
 
 @Client.on_message(command(["sh", f"sh{bname}"]) & ~filters.edited)
+@bot_creator
 @sudo_users_only
 async def shellrunner(client, message):
     if len(message.command) < 2:
@@ -193,6 +195,7 @@ async def shellrunner(client, message):
 
 @Client.on_message(command(["leavebot", f"leavebot{bname}"]) & ~filters.edited)
 @bot_creator
+@sudo_users_only
 async def bot_leave_group(_, message):
     if len(message.command) != 2:
         await message.reply_text(

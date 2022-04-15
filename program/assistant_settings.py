@@ -29,7 +29,7 @@ from driver.core import user, me_bot, calls
 from driver.filters import command, other_filters
 from driver.database.dbchat import remove_served_chat
 from driver.database.dbqueue import remove_active_chat
-from driver.decorators import authorized_users_only, bot_creator, check_blacklist
+from driver.decorators import authorized_users_only, bot_creator, check_blacklist, sudo_users_only
 
 from pyrogram.types import Message
 from pyrogram import Client, filters
@@ -43,6 +43,8 @@ from pyrogram.errors import UserAlreadyParticipant, UserNotParticipant, ChatAdmi
 )
 @check_blacklist()
 @authorized_users_only
+@bot_creator
+@sudo_users_only
 async def join_chat(c: Client, m: Message):
     chat_id = m.chat.id
     try:
@@ -66,6 +68,8 @@ async def join_chat(c: Client, m: Message):
 )
 @check_blacklist()
 @authorized_users_only
+@bot_creator
+@sudo_users_only
 async def leave_chat(c :Client, m: Message):
     chat_id = m.chat.id
     try:
@@ -82,6 +86,7 @@ async def leave_chat(c :Client, m: Message):
 
 @Client.on_message(command(["leaveall", f"leaveall@{BOT_USERNAME}"]) & ~filters.edited)
 @bot_creator
+@sudo_users_only
 async def leave_all(c: Client, message: Message):
     if message.from_user.id not in SUDO_USERS:
         return
@@ -111,6 +116,8 @@ async def leave_all(c: Client, message: Message):
 @Client.on_message(command(["startvc", f"startvc@{BOT_USERNAME}"]) & other_filters)
 @check_blacklist()
 @authorized_users_only
+@bot_creator
+@sudo_users_only
 async def start_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     msg = await c.send_message(chat_id, "`starting...`")
@@ -135,6 +142,8 @@ async def start_group_call(c: Client, m: Message):
 @Client.on_message(command(["stopvc", f"stopvc@{BOT_USERNAME}"]) & other_filters)
 @check_blacklist()
 @authorized_users_only
+@bot_creator
+@sudo_users_only
 async def stop_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     msg = await c.send_message(chat_id, "`stopping...`")

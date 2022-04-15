@@ -1,4 +1,5 @@
 import os
+import random
 import aiofiles
 import aiohttp
 from PIL import (
@@ -9,6 +10,14 @@ from PIL import (
 
 from config import UPDATES_CHANNEL
 
+thumb_choice = [
+    """
+driver/source/LightGreen.png
+    """,
+    """
+driver/source/LightBlue.png
+    """
+]
 
 def changeImageSize(maxWidth, maxHeight, image):
     if image.size[0] == image.size[1]:
@@ -37,7 +46,7 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
     else:
         img_path = thumbnail
     image1 = Image.open(img_path)
-    image2 = Image.open("driver/source/LightGreen.png")
+    image2 = Image.open(random.choice(thumb_choice))
     image3 = changeImageSize(1280, 720, image1)
     image4 = changeImageSize(1280, 720, image2)
     image5 = image3.convert("RGBA")
@@ -50,8 +59,8 @@ async def thumb(thumbnail, title, userid, ctitle, duration):
     font3 = ImageFont.truetype("driver/source/font2.ttf", 50)
 
     draw.text(
-            (103, 520),
-            f"Title: {title[:25]}",
+            (103, 500),
+            f"Title: {title}",
             fill="white",
             stroke_width=1,
             stroke_fill="yellow",

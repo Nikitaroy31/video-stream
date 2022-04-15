@@ -29,4 +29,3 @@ with Client(":veez:", API_ID, API_HASH, bot_token=BOT_TOKEN) as app:
 with user as app:
     me_user = app.get_me()
     
-run = calls.start

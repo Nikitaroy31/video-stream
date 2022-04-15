@@ -1,8 +1,9 @@
-from pyrogram import Client, filters
 import os
 import asyncio
 
-from driver.core import bot, calls, user
+from pytgcalls import PyTgCalls
+
+from driver.core import bot, user #calls
 from driver.database.dbqueue import remove_active_chat
 from driver.queues import (
     QUEUE,
@@ -21,6 +22,12 @@ from pytgcalls.types.input_stream.quality import (
 )
 from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
 from pytgcalls.types import Update
+
+calls = PyTgCalls(
+    user,
+    cache_duration=100,
+    overload_quiet_mode=True,
+)
 
 
 keyboard = InlineKeyboardMarkup(
@@ -103,38 +110,23 @@ async def skip_item(chat_id, h):
 @calls.on_kicked()
 async def kicked_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
-       
+
 
 @calls.on_closed_voice_chat()
 async def closed_voice_chat_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
-        
+
 
 @calls.on_left()
 async def left_handler(_, chat_id: int):
     if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
 
-############
-# 
-#
-#        
-@Client.on_message(filters.voice_chat_ended)
-async def closed_voice_chathandler(_, chat_id: int):
-    m = await Client.send_message('voice chat ended')
-    if chat_id in QUEUE:
-        await calls.leave_group_call(chat_id)
-        await remove_active_chat(chat_id)
-        clear_queue(chat_id)
-        await m.edit('cleared queue')
 
 @calls.on_stream_end()
 async def stream_end_handler(_, u: Update):
@@ -142,9 +134,7 @@ async def stream_end_handler(_, u: Update):
         chat_id = u.chat_id
         queue = await skip_current_song(chat_id)
         if queue == 1:
-            await calls.leave_group_call(chat_id)
             await remove_active_chat(chat_id)
-            clear_queue(chat_id)
             return
         elif queue == 2:
             await bot.send_message(
@@ -189,3 +179,4 @@ async def from_tg_get_msg(url: str):
         return await user.get_messages(cid, message_ids=mid)
     return None
 
+calls.start()

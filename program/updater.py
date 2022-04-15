@@ -31,7 +31,7 @@ from program import LOGS
 from config import UPSTREAM_REPO, BOT_USERNAME
 
 from driver.filters import command
-from driver.decorators import bot_creator
+from driver.decorators import bot_creator, sudo_users_only
 
 
 def gen_chlog(repo, diff):
@@ -74,6 +74,7 @@ def updater():
 
 
 @Client.on_message(command(["update", f"update@{BOT_USERNAME}"]) & ~filters.edited)
+@sudo_users_only
 @bot_creator
 async def update_bot(_, message: Message):
     chat_id = message.chat.id
@@ -88,6 +89,7 @@ async def update_bot(_, message: Message):
 
 
 @Client.on_message(command(["restart", f"restart@{BOT_USERNAME}"]) & ~filters.edited)
+@sudo_users_only
 @bot_creator
 async def restart_bot(_, message: Message):
     try:

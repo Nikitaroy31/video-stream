@@ -565,6 +565,7 @@ async def live_video_stream(c: Client, m: Message):
                 title = search[0]
                 songname = search[0]
                 thumbnail = search[3]
+                duration = 'live'
                 userid = m.from_user.id
                 gcname = m.chat.title
                 ctitle = await CHAT_TITLE(gcname)

@@ -97,7 +97,7 @@ async def play_tg_file(c: Client, m: Message, replied: Message = None, link: str
         link = replied.link
         songname = "music"
         thumbnail = f"{IMG_5}"
-        duration = "00:00"
+        
         try:
             if replied.audio:
                 if replied.audio.title:
@@ -276,7 +276,7 @@ async def audio_stream(c: Client, m: Message):
                         await suhu.edit(f"❌ yt-dl issues detected\n\n» `{ytlink}`")
                     else:
                         if chat_id in QUEUE:
-                            
+                            #if (NoActiveGroupCall, GroupCallNotFound):
                             image = await thumb(thumbnail, title, userid, ctitle, duration)
                             await suhu.edit("🔄 Queueing Track...")
                             pos = add_to_queue(
@@ -567,7 +567,7 @@ async def live_music_stream(c: Client, m: Message):
                             stream_type=StreamType().live_stream,
                         )
                         await msg.edit_text("🔄 Joining Group Call...")
-                        image = await thumb(thumbnail, title, userid, ctitle)
+                        image = await thumb(thumbnail, title, userid, ctitle, duration)
                         await music_on(chat_id)
                         await add_active_chat(chat_id)
 #

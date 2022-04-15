@@ -40,6 +40,7 @@ from config import BOT_USERNAME as uname
 
 @Client.on_message(command(["broadcast", f"broadcast@{uname}"]) & ~filters.edited)
 @bot_creator
+@sudo_users_only
 async def broadcast_message_nopin(c: Client, message: Message):
     if not message.reply_to_message:
         pass
@@ -83,6 +84,7 @@ async def broadcast_message_nopin(c: Client, message: Message):
 
 @Client.on_message(command(["broadcast_pin", f"broadcast_pin@{uname}"]) & ~filters.edited)
 @bot_creator
+@sudo_users_only
 async def broadcast_message_pin(c: Client, message: Message):
     if not message.reply_to_message:
         pass
@@ -141,6 +143,7 @@ async def broadcast_message_pin(c: Client, message: Message):
 
 
 @Client.on_message(command(["stats", f"stats@{uname}"]) & ~filters.edited)
+@bot_creator
 @sudo_users_only
 async def bot_statistic(c: Client, message: Message):
     name = me_bot.first_name
@@ -167,6 +170,7 @@ async def bot_statistic(c: Client, message: Message):
 
 
 @Client.on_message(command(["calls", f"calls@{uname}"]) & ~filters.edited)
+@bot_creator
 @sudo_users_only
 async def active_group_calls(c: Client, message: Message):
     served_chats = []

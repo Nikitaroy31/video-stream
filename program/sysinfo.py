@@ -30,7 +30,7 @@ from program import LOGS
 from driver.core import me_bot
 from driver.filters import command
 from driver.utils import remove_if_exists
-from driver.decorators import sudo_users_only, humanbytes
+from driver.decorators import bot_creator, sudo_users_only, humanbytes
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -38,6 +38,7 @@ from pyrogram.types import Message
 
 @Client.on_message(command(["sysinfo", f"sysinfo@{BOT_USERNAME}"]) & ~filters.edited)
 @sudo_users_only
+@bot_creator
 async def fetch_system_information(client, message):
     splatform = platform.system()
     platform_release = platform.release()
@@ -78,6 +79,7 @@ async def fetch_system_information(client, message):
 
 @Client.on_message(command(["logs", f"logs@{BOT_USERNAME}"]) & ~filters.edited)
 @sudo_users_only
+@bot_creator
 async def get_bot_logs(c: Client, m: Message):
     bot_log_path = f'streambot-logs-{me_bot.id}.txt'
     if os.path.exists(bot_log_path):
