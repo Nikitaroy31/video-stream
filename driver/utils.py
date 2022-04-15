@@ -218,4 +218,4 @@ async def from_tg_get_msg(url: str):
     return None
 
  
-await calls.start()
+#await calls.start()
