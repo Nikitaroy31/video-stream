@@ -149,7 +149,7 @@ async def closed_voice_chathandler(_, chat_id: int):
         clear_queue(chat_id)
         #await m.edit('cleared queue')
 
-@Client.on_message(filters.voice_chat_ended)
+#@Client.on_message(filters.voice_chat_ended)
 async def closed_voice_chathandler(_, chat_id: int):
     m = await bot.send_message(chat_id,'voice chat ended')
     if chat_id in QUEUE:
@@ -158,7 +158,7 @@ async def closed_voice_chathandler(_, chat_id: int):
         clear_queue(chat_id)
         #await m.edit('cleared queue')
 
-#@calls.on_stream_end()
+@calls.on_stream_end()
 async def stream_end_handler(_, u: Update):
     if isinstance(u, StreamAudioEnded) or isinstance(u, StreamVideoEnded):
         chat_id = u.chat_id
