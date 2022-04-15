@@ -23,7 +23,7 @@ from pyrogram import Client, filters
 from config import BOT_USERNAME
 from driver.core import bot
 from driver.filters import command
-from driver.decorators import sudo_users_only
+from driver.decorators import sudo_users_only, bot_creator
 from driver.database.dblockchat import (
   blacklist_chat,
   blacklisted_chats,
