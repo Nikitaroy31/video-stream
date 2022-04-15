@@ -110,6 +110,10 @@ async def skip_item(chat_id, h):
 @calls.on_kicked()
 async def kicked_handler(_, chat_id: int):
     if chat_id in QUEUE:
+<<<<<<< HEAD
+=======
+        #await calls.leave_group_call(chat_id)
+>>>>>>> 5e813b4e7ec6caff0468036ea523eec58af1acae
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
 
@@ -117,6 +121,10 @@ async def kicked_handler(_, chat_id: int):
 @calls.on_closed_voice_chat()
 async def closed_voice_chat_handler(_, chat_id: int):
     if chat_id in QUEUE:
+<<<<<<< HEAD
+=======
+        #await calls.leave_group_call(chat_id)
+>>>>>>> 5e813b4e7ec6caff0468036ea523eec58af1acae
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
 
@@ -127,15 +135,48 @@ async def left_handler(_, chat_id: int):
         await remove_active_chat(chat_id)
         clear_queue(chat_id)
 
+<<<<<<< HEAD
+=======
+############
+# 
+#
+     
+#@user.on_message(filters.voice_chat_ended)
+async def closed_voice_chathandler(_, chat_id: int):
+    #m = await user.send_message(chat_id,'voice chat ended')
+    if chat_id in QUEUE:
+        #await calls.leave_group_call(chat_id)
+        await remove_active_chat(chat_id)
+        clear_queue(chat_id)
+        #await m.edit('cleared queue')
+
+@Client.on_message(filters.voice_chat_ended)
+async def closed_voice_chathandler(_, chat_id: int):
+    m = await bot.send_message(chat_id,'voice chat ended')
+    if chat_id in QUEUE:
+        #await calls.leave_group_call(chat_id)
+        await remove_active_chat(chat_id)
+        clear_queue(chat_id)
+        #await m.edit('cleared queue')
+>>>>>>> 5e813b4e7ec6caff0468036ea523eec58af1acae
 
 @calls.on_stream_end()
 async def stream_end_handler(_, u: Update):
     if isinstance(u, StreamAudioEnded) or isinstance(u, StreamVideoEnded):
         chat_id = u.chat_id
+        print(chat_id)
         queue = await skip_current_song(chat_id)
         if queue == 1:
+<<<<<<< HEAD
             await remove_active_chat(chat_id)
             return
+=======
+            await bot.send_message(chat_id, "✅ **userbot has disconnected from video chat.**")
+            #await calls.leave_group_call(chat_id)
+            await remove_active_chat(chat_id)
+            clear_queue(chat_id)
+            #return
+>>>>>>> 5e813b4e7ec6caff0468036ea523eec58af1acae
         elif queue == 2:
             await bot.send_message(
                 chat_id,
@@ -179,4 +220,8 @@ async def from_tg_get_msg(url: str):
         return await user.get_messages(cid, message_ids=mid)
     return None
 
+<<<<<<< HEAD
 calls.start()
+=======
+#await calls.start()
+>>>>>>> 5e813b4e7ec6caff0468036ea523eec58af1acae
