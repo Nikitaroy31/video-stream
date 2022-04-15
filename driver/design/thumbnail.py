@@ -10,14 +10,7 @@ from PIL import (
 
 from config import UPDATES_CHANNEL
 
-thumb_choice = [
-    """
-driver/source/LightGreen.png
-    """,
-    """
-driver/source/LightBlue.png
-    """
-]
+thumb_choice = ["""driver/source/LightGreen.png""","""driver/source/LightBlue.png"""]
 
 def changeImageSize(maxWidth, maxHeight, image):
     if image.size[0] == image.size[1]:
