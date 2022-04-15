@@ -1,4 +1,3 @@
-
 """
 Video + Music Stream Telegram Bot
 Copyright (c) 2022-present levina=lab <https://github.com/levina-lab>
@@ -156,11 +155,9 @@ async def skip(c: Client, m: Message):
         thumbnail = f"{IMG_5}"
         title = f"{queue[0]}"
         userid = m.from_user.id
+        duration = "0:00"
         gcname = m.chat.title
         ctitle = await CHAT_TITLE(gcname)
-        image = await thumb(thumbnail, title, userid, ctitle)
-        await c.send_photo(
-            chat_id,
         image = await thumb(thumbnail, title, userid, ctitle, duration)
         await m.reply_photo(
             photo=image,
