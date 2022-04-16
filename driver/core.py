@@ -1,7 +1,6 @@
 from pyrogram import Client
 from pytgcalls import PyTgCalls
 from config import API_HASH, API_ID, BOT_TOKEN, SESSION_NAME
-from driver.utils import pycalls
 
 
 bot = Client(
@@ -17,14 +16,12 @@ user = Client(
     api_id=API_ID,
     api_hash=API_HASH,
 )
-calls = pycalls
-'''
+
 calls = PyTgCalls(
     user,
     cache_duration=100,
     overload_quiet_mode=True,
 )
-'''
 
 with Client(":veez:", API_ID, API_HASH, bot_token=BOT_TOKEN) as app:
     me_bot = app.get_me()
