@@ -1,4 +1,4 @@
-from config import OWNER_ID
+from config import OWNER_ID, SUDO_USERS
 from driver.core import user as nikki
 from pyrogram import filters
 from pyrogram.types import Dialog, Chat, Message
@@ -7,7 +7,7 @@ from datetime import datetime
 from driver.filters import command
 
 # To Block a PM'ed User
-@nikki.on_message(filters.private & filters.command("block", [".", "!"]) & filters.me & ~filters.edited)
+@nikki.on_message(filters.command("block", [".", "!"]) & filters.me & ~filters.edited)
 async def ubblock(_, message: Message):
   shit_id = message.chat.id
   gonna_block_u = await message.edit_text("`Blocking User...`")
@@ -97,11 +97,11 @@ async def _human_time_duration(seconds):
                          .format(amount, unit, "" if amount == 1 else "s"))
     return ', '.join(parts)
 
-@nikki.on_message(command("ping"))
-async def ping_pong(client, message):
+@nikki.on_message(filters.command("ping", [".", "!"]) & filters.me & ~filters.edited)
+async def ping_pong(client: nikki, message: Message):
         #await message.reply_chat_action("typing")
         start = time()
-        m_reply = await message.reply_text("checking ping...")
+        m_reply = await message.edit_text("checking ping...")
         delta_ping = time() - start
         current_time = datetime.utcnow()
         uptime_sec = (current_time - START_TIME).total_seconds()
