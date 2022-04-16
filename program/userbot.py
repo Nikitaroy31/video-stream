@@ -4,7 +4,6 @@ from pyrogram import filters
 from pyrogram.types import Dialog, Chat, Message
 from time import time
 from datetime import datetime
-from driver.filters import command
 
 # To Block a PM'ed User
 @nikki.on_message(filters.command("block", [".", "!"]) & filters.me & ~filters.edited)
@@ -98,7 +97,7 @@ async def _human_time_duration(seconds):
     return ', '.join(parts)
 
 @nikki.on_message(filters.command("ping", [".", "!"]) & filters.me & ~filters.edited)
-async def ping_pong(client: nikki, message: Message):
+async def ping_pong(_, message: Message):
         #await message.reply_chat_action("typing")
         start = time()
         m_reply = await message.edit_text("checking ping...")
@@ -106,7 +105,7 @@ async def ping_pong(client: nikki, message: Message):
         current_time = datetime.utcnow()
         uptime_sec = (current_time - START_TIME).total_seconds()
         uptime = await _human_time_duration(int(uptime_sec))
-        await m_reply.edit_text(
+        await m_reply.edit(
         f"🏓 **PONG!!**  **{delta_ping * 1000:.3f} ms** \n"
         f"⚡️ **Uptime:** **{uptime}**\n\n "
         f"💖 ** @nikitaroy_31**"
