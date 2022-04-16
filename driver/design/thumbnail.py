@@ -10,7 +10,7 @@ from PIL import (
 
 from config import UPDATES_CHANNEL
 
-thumb_choice = ["""driver/source/LightGreen.png""","""driver/source/LightBlue.png""","""driver/source/foreground.png""","""driver/source/20220416_210827.png""","""driver/source/20220416_210939.png""","""driver/source/20220416_211003.png""","""driver/source/20220416_211015.png""","""driver/source/20220416_211037.png"""]
+thumb_choice = ["""driver/source/LightGreen.png""","""driver/source/LightBlue.png""","""driver/source/20220416_210827.png""","""driver/source/20220416_210939.png""","""driver/source/20220416_211003.png""","""driver/source/20220416_211015.png""","""driver/source/20220416_211037.png""","""driver/source/20220416_215025.png""","""driver/source/20220416_214902.png"""]
 
 def changeImageSize(maxWidth, maxHeight, image):
     if image.size[0] == image.size[1]:
