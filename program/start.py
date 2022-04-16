@@ -203,9 +203,9 @@ async def new_chat(c: Client, m: Message):
             return
 
 
-chat_watcher_group = 0
+chat_watcher_group = 5
 
-@Client.on_message(group=chat_watcher_group)
+@Client.on_message(filters.group, group=chat_watcher_group)
 async def chat_watcher_func(_, message: Message):
     userid = message.from_user.id
     suspect = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
