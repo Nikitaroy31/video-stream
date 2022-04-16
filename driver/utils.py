@@ -4,7 +4,7 @@ from pyrogram import Client
 
 from pytgcalls import PyTgCalls
 
-from driver.core import bot, user #calls
+from driver.core import bot, user calls
 from driver.database.dbqueue import remove_active_chat
 from driver.queues import (
     QUEUE,
@@ -24,11 +24,6 @@ from pytgcalls.types.input_stream.quality import (
 from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
 from pytgcalls.types import Update
 
-calls = PyTgCalls(
-    user,
-    cache_duration=100,
-    overload_quiet_mode=True,
-)
 
 
 keyboard = InlineKeyboardMarkup(
