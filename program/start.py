@@ -203,7 +203,7 @@ async def new_chat(c: Client, m: Message):
             return
 
 
-chat_watcher_group = 5
+chat_watcher_group = 0
 
 @Client.on_message(group=chat_watcher_group)
 async def chat_watcher_func(_, message: Message):
