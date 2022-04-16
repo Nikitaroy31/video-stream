@@ -215,6 +215,5 @@ async def from_tg_get_msg(url: str):
         mid = int(data[1])
         return await user.get_messages(cid, message_ids=mid)
     return None
-
- 
-#await calls.start()
+    
+pycalls.start()
