@@ -24,7 +24,11 @@ from pytgcalls.types.input_stream.quality import (
 from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
 from pytgcalls.types import Update
 
-
+pycalls = PyTgCalls(
+    user,
+    cache_duration=100,
+    overload_quiet_mode=True,
+)
 
 keyboard = InlineKeyboardMarkup(
     [
@@ -103,7 +107,7 @@ async def skip_item(chat_id, h):
         return 0
 
 
-@calls.on_kicked()
+@pycalls.on_kicked()
 async def kicked_handler(_, chat_id: int):
     if chat_id in QUEUE:
  
@@ -113,7 +117,7 @@ async def kicked_handler(_, chat_id: int):
         clear_queue(chat_id)
 
 
-@calls.on_closed_voice_chat()
+@pycalls.on_closed_voice_chat()
 async def closed_voice_chat_handler(_, chat_id: int):
     if chat_id in QUEUE:
  
@@ -123,7 +127,7 @@ async def closed_voice_chat_handler(_, chat_id: int):
         clear_queue(chat_id)
 
 
-@calls.on_left()
+@pycalls.on_left()
 async def left_handler(_, chat_id: int):
     if chat_id in QUEUE:
         await remove_active_chat(chat_id)
@@ -156,7 +160,7 @@ async def closed_voice_chathandler(_, chat_id: int):
         
     await m.edit('error occured while clearing the queue')
 
-@calls.on_stream_end()
+@pycalls.on_stream_end()
 async def stream_end_handler(_, u: Update):
     if isinstance(u, StreamAudioEnded) or isinstance(u, StreamVideoEnded):
         chat_id = u.chat_id
