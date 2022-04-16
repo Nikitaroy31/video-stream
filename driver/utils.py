@@ -4,7 +4,7 @@ from pyrogram import Client
 
 from pytgcalls import PyTgCalls
 
-from driver.core import bot, user calls
+from driver.core import bot, user, calls
 from driver.database.dbqueue import remove_active_chat
 from driver.queues import (
     QUEUE,
