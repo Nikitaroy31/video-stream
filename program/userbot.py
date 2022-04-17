@@ -7,10 +7,14 @@ from time import time
 from datetime import datetime
 from pyrogram import Client, filters, __version__ as pyrover
 from pytgcalls import (__version__ as pytgver)
-from driver.filters import eor
+from driver.filters import eor, get_text
 import requests
 from program import __version__ as ver
 from program.start import __python_version__ as pyver
+
+import os
+
+
 
 # To Block a PM'ed User
 @nikki.on_message(filters.command("block", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
@@ -131,152 +135,6 @@ async def ubalive(_, message: Message):
   alive_pic = "driver/source/nikki.jpg"
   await message.reply_photo(alive_pic, caption=f"**🌀 Nikita Userbot is Alive 🌀** \n\n**🤖 Version** \n ↳**Bot Version:** `{ver}` \n ↳**Userbot Version:** `1.0` \n ↳**Python Version:** `{pyver}`\n ↳**Pytgcalls Version:** `{pytgver.__version__}` \n ↳**Pyrogram Version:** `{pyrover}` \n\n ↳**ping:** `⚡{delta_ping * 1000:.3f} ms ` \n ↳**Uptime:** {uptime}\n\n**🐬 Info**\n ↳**Nikki Vc Music:** @{BOT_USERNAME} \n ↳**Owner:** [Nikita Roy](tg://user?id=932498979) \n ↳**Powered by:** @{UPDATES_CHANNEL}")
   await alive_msg.delete()
-
-
-# This plugin is ported from https://github.com/thehamkercat/WilliamButcherBot
-from search_engine_parser import GoogleSearch
-
-
-ARQ = "https://thearq.tech/"
-
-async def fetch(url):
-    try:
-        r = requests.request("GET", url=url)
-    except:
-        return
-
-    try:
-        data = r.json()
-    except:
-        data = r.text()
-    return data
-
-@nikki.on_message(filters.command("ud", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
-async def urbandict(_, message):
-    if len(message.command) < 2:
-        await eor(message, '"ud" Needs An Argument.')
-        return
-    text = message.text.split(None, 1)[1]
-    try:
-        results = await fetch(f"{ARQ}ud?query={text}")
-        reply_text = f"""**Definition:** __{results["list"][0]["definition"]}__
-**Example:** __{results["list"][0]["example"]}__"""
-    except IndexError:
-        reply_text = "Sorry could not find any matching results!"
-    ignore_chars = "[]"
-    reply = reply_text
-    for chars in ignore_chars:
-        reply = reply.replace(chars, "")
-    if len(reply) >= 4096:
-        reply = reply[:4096]
-    await eor(message, reply)
-
-
-# google
-
-
-@nikki.on_message(filters.command("google", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
-async def google(_, message):
-    try:
-        if len(message.command) < 2:
-            await eor(message, '"google" Needs An Argument')
-            return
-        text = message.text.split(None, 1)[1]
-        gresults = await GoogleSearch().async_search(text, 1)
-        result = ""
-        for i in range(4):
-            try:
-                title = gresults["titles"][i].replace("\n", " ")
-                source = gresults["links"][i]
-                description = gresults["descriptions"][i]
-                result += f"[{title}]({source})\n"
-                result += f"`{description}`\n\n"
-            except IndexError:
-                pass
-        await eor(message, result, disable_web_page_preview=True)
-    except Exception as e:
-        await eor(message, str(e))
-
-
-# StackOverflow [This is also a google search with some added args]
-
-
-@nikki.on_message(filters.command("so", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
-async def stack(_, message):
-    try:
-        if len(message.command) < 2:
-            await eor(message, '"so" Needs An Argument')
-            return
-        gett = message.text.split(None, 1)[1]
-        text = gett + ' "site:stackoverflow.com"'
-        gresults = await GoogleSearch().async_search(text, 1)
-        result = ""
-        for i in range(4):
-            try:
-                title = gresults["titles"][i].replace("\n", " ")
-                source = gresults["links"][i]
-                description = gresults["descriptions"][i]
-                result += f"[{title}]({source})\n"
-                result += f"`{description}`\n\n"
-            except IndexError:
-                pass
-        await eor(message, result, disable_web_page_preview=True)
-    except Exception as e:
-        await eor(message, str(e))
-
-
-# Github [This is also a google search with some added args]
-
-
-@nikki.on_message(filters.command("gh", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
-async def github(_, message):
-    try:
-        if len(message.command) < 2:
-            await eor(message, '"gh" Needs An Argument')
-            return
-        gett = message.text.split(None, 1)[1]
-        text = gett + ' "site:github.com"'
-        gresults = await GoogleSearch().async_search(text, 1)
-        result = ""
-        for i in range(4):
-            try:
-                title = gresults["titles"][i].replace("\n", " ")
-                source = gresults["links"][i]
-                description = gresults["descriptions"][i]
-                result += f"[{title}]({source})\n"
-                result += f"`{description}`\n\n"
-            except IndexError:
-                pass
-        await eor(message, result, disable_web_page_preview=True)
-    except Exception as e:
-        await eor(message, str(e))
-
-
-# YouTube
-
-
-@nikki.on_message(filters.command("yts", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
-async def ytsearch(_, message):
-    try:
-        if len(message.command) < 2:
-            await eor(message, "yt needs an argument")
-            return
-        query = message.text.split(None, 1)[1]
-        m = await eor(message, "Searching....")
-        results = await fetch(f"{ARQ}youtube?query={query}&count=3")
-        i = 0
-        text = ""
-        while i < 3:
-            text += f"Title - {results[i]['title']}\n"
-            text += f"Duration - {results[i]['duration']}\n"
-            text += f"Views - {results[i]['views']}\n"
-            text += f"Channel - {results[i]['channel']}\n"
-            text += f"https://youtube.com{results[i]['url_suffix']}\n\n"
-            i += 1
-        await m.edit(text, disable_web_page_preview=True)
-    except Exception as e:
-        await eor(message, str(e))
-
 
 #chat join 
 '''

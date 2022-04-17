@@ -2,8 +2,42 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from driver.database.dbqueue import get_active_chats
 from driver.decorators import bot_creator, sudo_users_only
-from config import BOT_USERNAME as uname
-from driver.filters import command
+from config import BOT_USERNAME as uname, SUDO_USERS
+from driver.filters import command, eor
+from driver.core import bot as c, user as nikki
+
+@nikki.on_message(filters.command("calls", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
+async def get_calls(_, message: Message):
+    served_chats = []
+    try:
+        chats = await get_active_chats()
+        for chat in chats:
+            served_chats.append(int(chat["chat_id"]))
+    except Exception as e:
+        await eor(message,f"🚫 error: `{e}`")
+    text = ""
+    j = 0
+    for x in served_chats:
+        try:
+            title = (await c.get_chat(x)).title
+        except BaseException:
+            title = "Private Group"
+        if (await c.get_chat(x)).username:
+            data = (await c.get_chat(x)).username
+            text += (
+                f"**{j + 1}.** [{title}](https://t.me/{data}) [`{x}`]\n"
+            )
+        else:
+            text += f"**{j + 1}.** {title} [`{x}`]\n"
+        j += 1
+    if not text:
+        await eor(message,"❌ no active group calls")
+    else:
+        await eor(message,
+            f"✏️ **Running Group Call List:**\n\n{text}\n❖ This is the list of all current active group call in my database.",
+            disable_web_page_preview=True,
+        )
+
 
 
 @Client.on_message(command(["calls", f"calls@{uname}"]) & ~filters.edited)

@@ -19,4 +19,3 @@ motor
 psutil
 wget
 random2
-search_engine_parser
