@@ -56,7 +56,7 @@ def capture_err(func):
 
     return capture
 
-@Client.on_message(command("webshot"))
+@Client.on_message(command("ss"))
 @capture_err
 async def ss(_, message: Message):
     try:

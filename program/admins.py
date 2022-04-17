@@ -19,7 +19,7 @@ import traceback
 from cache.admins import admins
 from config import BOT_USERNAME, IMG_5
 
-from driver.core import calls, me_user
+from driver.core import calls, me_user, bot
 from driver.design.thumbnail import thumb
 from driver.design.chatname import CHAT_TITLE
 from driver.queues import QUEUE, clear_queue
@@ -44,8 +44,7 @@ from pyrogram.types import (
 
 @Client.on_message(command(["reload", f"reload@{BOT_USERNAME}"]) & other_filters)
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def update_admin(client, message: Message):
     global admins
@@ -64,8 +63,7 @@ async def update_admin(client, message: Message):
     & other_filters
 )
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def stop(client, m: Message):
     chat_id = m.chat.id
@@ -86,8 +84,7 @@ async def stop(client, m: Message):
     command(["pause", f"pause@{BOT_USERNAME}", "vpause"]) & other_filters
 )
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def pause(client, m: Message):
     chat_id = m.chat.id
@@ -111,8 +108,7 @@ async def pause(client, m: Message):
     command(["resume", f"resume@{BOT_USERNAME}", "vresume"]) & other_filters
 )
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def resume(client, m: Message):
     chat_id = m.chat.id
@@ -134,8 +130,7 @@ async def resume(client, m: Message):
 
 @Client.on_message(command(["skip", f"skip@{BOT_USERNAME}", "vskip"]) & other_filters)
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def skip(c: Client, m: Message):
     user_id = m.from_user.id
@@ -159,11 +154,12 @@ async def skip(c: Client, m: Message):
         gcname = m.chat.title
         ctitle = await CHAT_TITLE(gcname)
         image = await thumb(thumbnail, title, userid, ctitle, duration)
-        await m.reply_photo(
-            photo=image,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            caption=f"⏭ **Skipped** to the next track.\n\n🗂 **Name:** [{queue[0]}]({queue[1]})\n💭 **Chat:** `{chat_id}`\n🧸 **Request by:** {requester}",
-        )
+        await bot.send_message(
+                chat_id,
+                f"💡 **Streaming next track**\n\n🗂 **Name:** [{queue[0]}]({queue[1]}) | `{queue[2]}`\n💭 **Chat:** `{chat_id}`",
+                disable_web_page_preview=True,
+                reply_markup=InlineKeyboardMarkup(buttons),
+            )
         remove_if_exists(image)
 
 
@@ -171,8 +167,7 @@ async def skip(c: Client, m: Message):
     command(["mute", f"mute@{BOT_USERNAME}", "vmute"]) & other_filters
 )
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def mute(client, m: Message):
     chat_id = m.chat.id
@@ -196,8 +191,7 @@ async def mute(client, m: Message):
     command(["unmute", f"unmute@{BOT_USERNAME}", "vunmute"]) & other_filters
 )
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def unmute(client, m: Message):
     chat_id = m.chat.id
@@ -221,8 +215,7 @@ async def unmute(client, m: Message):
     command(["volume", f"volume@{BOT_USERNAME}", "vol"]) & other_filters
 )
 @authorized_users_only
-@bot_creator
-@sudo_users_only
+ 
 @check_blacklist()
 async def change_volume(c: Client, m: Message):
     if len(m.command) < 2:
@@ -382,10 +375,10 @@ async def cbskip(_, query: CallbackQuery):
         gcname = query.message.chat.title
         ctitle = await CHAT_TITLE(gcname)
         image = await thumb(thumbnail, title, userid, ctitle, duration)
-        await _.send_photo(
-            chat_id,
-            photo=image,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            caption=f"⏭ **Skipped** to the next track.\n\n🗂 **Name:** [{queue[0]}]({queue[1]})\n💭 **Chat:** `{chat_id}`\n🧸 **Request by:** {requester}",
-        )
+        await _.send_message(
+                chat_id,
+                f"💡 **Streaming next track**\n\n🗂 **Name:** [{queue[0]}]({queue[1]}) | `{queue[2]}`\n💭 **Chat:** `{chat_id}`",
+                disable_web_page_preview=True,
+                reply_markup=InlineKeyboardMarkup(buttons),
+            )
         remove_if_exists(image)
