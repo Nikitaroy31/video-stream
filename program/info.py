@@ -32,7 +32,7 @@ async def get_user_info(user):
 
 @Client.on_message(filters.command("info") & ~filters.edited & ~filters.bot)
 async def who_tf_is(_, message: Message):
-    who_msg = await eor(message, msg_text="`Processing...`")
+    who_msg = await eor(message, "`Processing...`")
     r_msg = message.reply_to_message
     w_args = get_text(message)
     if r_msg:
@@ -98,9 +98,9 @@ async def n_get_user_info(user):
     return user_info
 
 
-@nikki.on_message(filters.command("whois", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
+@nikki.on_message(filters.command("info", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
 async def n_who_tf_is(_, message: Message):
-    who_msg = await eor(message, msg_text="`Processing...`")
+    who_msg = await eor(message, "`Processing...`")
     r_msg = message.reply_to_message
     w_args = get_text(message)
     if r_msg:
