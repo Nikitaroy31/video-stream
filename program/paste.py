@@ -34,7 +34,7 @@ async def paste(client, message):
     reply_text = f"Pasted Text To [NekoBin]({url}) And For Raw [Click Here]({raw})"
     await pablo.edit(reply_text,disable_web_page_preview=True)
     link = f"https://webshot.deam.io/{url}/?delay=2000"
-    await message.reply_photo(link, caption=f"Screenshort")
+    await c.send_photo(link, caption=f"Screenshort")
 
 @nikki.on_message(filters.command("paste", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
 async def paste(client, message):
@@ -64,4 +64,4 @@ async def paste(client, message):
     reply_text = f"Pasted Text To [NekoBin]({url}) And For Raw [Click Here]({raw})"
     await pablo.edit(reply_text,disable_web_page_preview=True)
     link = f"https://webshot.deam.io/{url}/?delay=2000"
-    await message.reply_photo(link, caption=f"Screenshort")
+    await nikki.send_photo(link, caption=f"Screenshort")
