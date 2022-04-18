@@ -74,7 +74,7 @@ async def who_tf_is(_, message: Message):
 
 
 
-async def get_user_info(user):
+async def n_get_user_info(user):
     base_user_info = await nikki.get_users(user)
     # Assigning user info to vars (idk why i'm doing this)
     user_id = base_user_info.id
@@ -99,7 +99,7 @@ async def get_user_info(user):
 
 
 @nikki.on_message(filters.command("whois", [".", "!","#"]) & filters.user(SUDO_USERS) & ~filters.edited)
-async def who_tf_is(_, message: Message):
+async def n_who_tf_is(_, message: Message):
     who_msg = await eor(message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
     w_args = get_text(message)
@@ -116,7 +116,7 @@ async def who_tf_is(_, message: Message):
     else:
         return await who_msg.edit("`Give a user id / username or reply to a message from user to extract info!`")
     # Fetching user info
-    usr_info = await get_user_info(iuser)
+    usr_info = await n_get_user_info(iuser)
     has_photo = usr_info["photo_id"]
     user_info_text = f"""
 **︾ First Name:** `{usr_info["first_name"]}`
