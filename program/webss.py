@@ -11,7 +11,7 @@ async def webshot(client, message):
         user = get_text(message)
         await message.delete()
         link = f"https://webshot.deam.io/{user}/?delay=2000"
-        await client.send_photo(message.chat.id, link, caption=f"{user}")
+        await c.send_photo(message.chat.id, link, caption=f"{user}")
     except:
         await message.delete()
         await a.edit("**Wrong Url**")
